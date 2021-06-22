@@ -6,7 +6,29 @@ require('packer').startup(function(use)
     use { 'wbthomason/packer.nvim', opt = true }
 
 
+    -- colorscheme
+    use 'marko-cerovac/material.nvim'
+
+    -- status line
+    use {
+        'hoob3rt/lualine.nvim',
+        requires = {'kyazdani42/nvim-web-devicons', opt = true}
+    }
+
+
 end)
+
+-- colorscheme
+require('material').set()
+require('lualine').setup {
+  options = {
+    theme = 'nord'
+  }
+}
+vim.g.material_style = "deep ocean"
+
+
+
 
 
 -- Map leader to space
@@ -24,6 +46,7 @@ local scopes = {o = vim.o, b = vim.bo, w = vim.wo}
 
 local function opt(scope, key, value)
   scopes[scope][key] = value
+  -- This line is the workaround
   if scope ~= 'o' then scopes['o'][key] = value end
 end
 
