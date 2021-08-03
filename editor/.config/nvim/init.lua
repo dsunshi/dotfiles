@@ -8,34 +8,31 @@ require('packer').startup(function(use)
     -- have Packer manage itself
     use { 'wbthomason/packer.nvim', opt = true }
 
-    
     use 'marko-cerovac/material.nvim'  -- colorscheme
-	use 'L3MON4D3/LuaSnip' -- lua snippets
-	
-	-- lsp / autocomplete
-	use 'neovim/nvim-lspconfig' -- Collection of common configurations for the Nvim LSP client
-	use 'nvim-lua/lsp_extensions.nvim' -- Extensions to built-in LSP, for example, providing type inlay hints
-	use 'nvim-lua/completion-nvim' -- Autocompletion framework for built-in LSP
-	-- use 'hrsh7th/nvim-compe'
-	
+    use 'L3MON4D3/LuaSnip' -- lua snippets
 
-	use 'rhysd/vim-clang-format'
-	
-	-- rust
-	use 'rust-lang/rust.vim'
-	
-	
-	use 'tomtom/tcomment_vim' -- code commenting
-	use 'tpope/vim-fugitive' -- git integration
-	use 'tommcdo/vim-lion' -- text alignment
-	use 'plasticboy/vim-markdown' -- markdown support
-	use 'kshenoy/vim-signature' -- place, toggle and display marks.
-	use 'tpope/vim-surround' -- change text surrounds
-	use 'junegunn/goyo.vim' -- focused editing
-	use 'junegunn/limelight.vim' -- more focused editing
-	use 'junegunn/fzf.vim' -- fuzzy searching
-	use 'justinmk/vim-sneak' -- text search
-	
+    -- lsp / autocomplete
+    use 'neovim/nvim-lspconfig' -- Collection of common configurations for the Nvim LSP client
+    use 'nvim-lua/lsp_extensions.nvim' -- Extensions to built-in LSP, for example, providing type inlay hints
+    use 'nvim-lua/completion-nvim' -- Autocompletion framework for built-in LSP
+    -- use 'hrsh7th/nvim-compe'
+
+    use 'rhysd/vim-clang-format'
+
+    -- rust
+    use 'rust-lang/rust.vim'
+
+    use 'tomtom/tcomment_vim' -- code commenting
+    use 'tpope/vim-fugitive' -- git integration
+    use 'tommcdo/vim-lion' -- text alignment
+    use 'plasticboy/vim-markdown' -- markdown support
+    use 'kshenoy/vim-signature' -- place, toggle and display marks.
+    use 'tpope/vim-surround' -- change text surrounds
+    use 'junegunn/goyo.vim' -- focused editing
+    use 'junegunn/limelight.vim' -- more focused editing
+    use 'junegunn/fzf.vim' -- fuzzy searching
+    use 'justinmk/vim-sneak' -- text search
+
     -- status line
     use {
         'hoob3rt/lualine.nvim',
@@ -160,8 +157,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     update_in_insert = true,
   }
 )
-
-
 
 
 -- Automatic, language-dependent indentation, syntax coloring and other
