@@ -9,13 +9,6 @@ require('packer').startup(function(use)
     use { 'wbthomason/packer.nvim', opt = true }
 
     use 'marko-cerovac/material.nvim'  -- colorscheme
-    use 'L3MON4D3/LuaSnip' -- lua snippets
-
-    -- lsp / autocomplete
-    use 'neovim/nvim-lspconfig' -- Collection of common configurations for the Nvim LSP client
-    use 'nvim-lua/lsp_extensions.nvim' -- Extensions to built-in LSP, for example, providing type inlay hints
-    use 'nvim-lua/completion-nvim' -- Autocompletion framework for built-in LSP
-    -- use 'hrsh7th/nvim-compe'
 
     use 'rhysd/vim-clang-format'
 
@@ -28,10 +21,27 @@ require('packer').startup(function(use)
     use 'plasticboy/vim-markdown' -- markdown support
     use 'kshenoy/vim-signature' -- place, toggle and display marks.
     use 'tpope/vim-surround' -- change text surrounds
-    use 'junegunn/goyo.vim' -- focused editing
-    use 'junegunn/limelight.vim' -- more focused editing
+    --use 'junegunn/goyo.vim' -- focused editing
+    --use 'junegunn/limelight.vim' -- more focused editing
     use 'junegunn/fzf.vim' -- fuzzy searching
     use 'justinmk/vim-sneak' -- text search
+	
+	
+    use 'nvim-treesitter/nvim-treesitter'  -- Highlight, edit, and navigate code using a fast incremental parsing library
+    use 'nvim-treesitter/nvim-treesitter-textobjects'  -- Additional textobjects for treesitter
+	
+    -- lsp / autocomplete
+    use 'nvim-lua/lsp_extensions.nvim' -- Extensions to built-in LSP, for example, providing type inlay hints
+    use 'neovim/nvim-lspconfig' -- Collection of configurations for built-in LSP client
+	use 'hrsh7th/cmp-nvim-lsp'
+	use 'hrsh7th/cmp-buffer'
+	use 'hrsh7th/cmp-path'
+	use 'hrsh7th/cmp-cmdline'
+	use 'hrsh7th/nvim-cmp'
+
+    -- luasnip
+    use 'L3MON4D3/LuaSnip' -- Snippets plugin
+    use 'saadparwaiz1/cmp_luasnip' -- cmp compatability
 
     -- status line
     use {
@@ -45,7 +55,7 @@ end)
 -- =============================================================================
 -- Colorscheme {{{1
 -- =============================================================================
-require('material').set()
+vim.cmd [[colorscheme material]]
 require('lualine').setup {
   options = {
     theme = 'nord'
@@ -97,7 +107,7 @@ vim.opt.shortmess    = vim.opt.shortmess + 'c'
 -- GUI {{{1
 -- =============================================================================
 
-vim.opt.guifont        = 'JetBrainsMono NF:h12'            -- patched version from https://www.nerdfonts.com/#home
+vim.opt.guifont        = 'JetBrainsMono NF:h16'            -- patched version from https://www.nerdfonts.com/#home
 vim.opt.belloff        = 'all'                             -- never ring the bell for any reason
 vim.opt.splitbelow    = true                    -- open horizontal splits below current window
 vim.opt.splitright    = true                    -- open vertical splits to the right of the current window
@@ -108,6 +118,9 @@ vim.opt.splitright    = true                    -- open vertical splits to the r
 
 vim.g.mapleader = ' ' -- Map leader to space
 vim.g.rustfmt_autosave  = true
+
+-- Disable folding in markdown since it is more of a pain than anyghing
+vim.g.vim_markdown_folding_disabled=1
 
 local lspconfig = require('lspconfig')
 local on_attach = function(client, bufnr)
@@ -137,13 +150,19 @@ local on_attach = function(client, bufnr)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
   -- Forward to other plugins
-  require'completion'.on_attach(client)
+  vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
 end
+
+-- LSP and auto completion
+-- nvim-cmp supports additional completion capabilities
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 local servers = { "rust_analyzer" }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
+	capabilities = capabilities,
     flags = {
       debounce_text_changes = 150,
     }
@@ -157,6 +176,56 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     update_in_insert = true,
   }
 )
+
+-- Set completeopt to have a better completion experience
+vim.o.completeopt = 'menu,menuone,noselect'
+
+-- luasnip setup
+local luasnip = require 'luasnip'
+
+-- nvim-cmp setup
+local cmp = require 'cmp'
+cmp.setup {
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
+  mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ['<Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end,
+    ['<S-Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end,
+  },
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+  },
+}
 
 
 -- Automatic, language-dependent indentation, syntax coloring and other
