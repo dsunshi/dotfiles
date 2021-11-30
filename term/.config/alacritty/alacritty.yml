@@ -1,7 +1,50 @@
 
+env:
+  TERM: xterm-256color
+
+window:
+  title: Alacritty
+  class:
+    instance: Alacritty
+    general: Alacritty
 font:
   normal:
     family: JetBrainsMono Nerd Font
     style: Regular
-  size: 16.0
+  size: 14.0
 
+
+schemes:
+  # Colors (Material Theme)
+  material: &material
+    # Default colors
+    primary:
+      background: '#1e282d'
+      foreground: '#c4c7d1'
+
+    # Normal colors
+    normal:
+      black:   '#666666'
+      red:     '#eb606b'
+      green:   '#c3e88d'
+      yellow:  '#f7eb95'
+      blue:    '#80cbc4'
+      magenta: '#ff2f90'
+      cyan:    '#aeddff'
+      white:   '#ffffff'
+
+    # Bright colors
+    bright:
+      black:   '#ff262b'
+      red:     '#eb606b'
+      green:   '#c3e88d'
+      yellow:  '#f7eb95'
+      blue:    '#7dc6bf'
+      magenta: '#6c71c4'
+      cyan:    '#35434d'
+      white:   '#ffffff'
+
+colors: *material
+
+shell:
+  program: /usr/bin/fish
