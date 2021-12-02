@@ -105,9 +105,9 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
+set $terms "1: terms"
+set $web "2: web"
+set $kb "3: kb"
 set $ws4 "4"
 set $ws5 "5"
 set $ws6 "6"
@@ -117,9 +117,9 @@ set $ws9 "9"
 set $ws10 "10"
 
 # switch to workspace
-bindsym $mod+1 workspace number $ws1
-bindsym $mod+2 workspace number $ws2
-bindsym $mod+3 workspace number $ws3
+bindsym $mod+1 workspace $terms
+bindsym $mod+2 workspace $web
+bindsym $mod+3 workspace $kb
 bindsym $mod+4 workspace number $ws4
 bindsym $mod+5 workspace number $ws5
 bindsym $mod+6 workspace number $ws6
@@ -179,3 +179,8 @@ bindsym $mod+r mode "resize"
 bar {
         status_command i3status
 }
+
+# Wallpaper
+exec --no-startup-id feh --no-fehbg --bg-fill '/home/david/.config/bg/cc45a35qcv281.png'
+# Transparency
+exec --no-startup-id "compton -b"
