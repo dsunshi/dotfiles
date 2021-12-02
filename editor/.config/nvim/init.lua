@@ -9,6 +9,7 @@ require('packer').startup(function(use)
     use { 'wbthomason/packer.nvim', opt = true }
 
     use 'marko-cerovac/material.nvim'  -- colorscheme
+    use 'xiyaowong/nvim-transparent' -- transparency enable/disable
 
     use 'rhysd/vim-clang-format'
 
@@ -25,19 +26,19 @@ require('packer').startup(function(use)
     --use 'junegunn/limelight.vim' -- more focused editing
     use 'junegunn/fzf.vim' -- fuzzy searching
     use 'justinmk/vim-sneak' -- text search
-	
-	
+
+
     use 'nvim-treesitter/nvim-treesitter'  -- Highlight, edit, and navigate code using a fast incremental parsing library
     use 'nvim-treesitter/nvim-treesitter-textobjects'  -- Additional textobjects for treesitter
-	
+
     -- lsp / autocomplete
     use 'nvim-lua/lsp_extensions.nvim' -- Extensions to built-in LSP, for example, providing type inlay hints
     use 'neovim/nvim-lspconfig' -- Collection of configurations for built-in LSP client
-	use 'hrsh7th/cmp-nvim-lsp'
-	use 'hrsh7th/cmp-buffer'
-	use 'hrsh7th/cmp-path'
-	use 'hrsh7th/cmp-cmdline'
-	use 'hrsh7th/nvim-cmp'
+    use 'hrsh7th/cmp-nvim-lsp'
+    use 'hrsh7th/cmp-buffer'
+    use 'hrsh7th/cmp-path'
+    use 'hrsh7th/cmp-cmdline'
+    use 'hrsh7th/nvim-cmp'
 
     -- luasnip
     use 'L3MON4D3/LuaSnip' -- Snippets plugin
@@ -162,7 +163,7 @@ local servers = { "rust_analyzer" }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
-	capabilities = capabilities,
+    capabilities = capabilities,
     flags = {
       debounce_text_changes = 150,
     }
@@ -235,6 +236,23 @@ cmp.setup {
 -- package "ftdetect" directories won't be evaluated.
 vim.cmd('filetype indent plugin on')
 vim.cmd('syntax on')
+
+require("transparent").setup({
+  enable = false, -- boolean: enable transparent
+  extra_groups = { -- table/string: additional groups that should be clear
+    -- In particular, when you set it to 'all', that means all avaliable groups
+
+    -- example of akinsho/nvim-bufferline.lua
+    "BufferLineTabClose",
+    "BufferlineBufferSelected",
+    "BufferLineFill",
+    "BufferLineBackground",
+    "BufferLineSeparator",
+    "BufferLineIndicatorSelected",
+  },
+  exclude = {}, -- table: groups you don't want to clear
+})
+
 
 -- =============================================================================
 -- Auto Commands {{{1
