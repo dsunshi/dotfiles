@@ -108,7 +108,7 @@ bindsym $mod+a focus parent
 set $terms "1: terms"
 set $web "2: web"
 set $kb "3: kb"
-set $ws4 "4"
+set $email "4: email"
 set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
@@ -120,7 +120,7 @@ set $ws10 "10"
 bindsym $mod+1 workspace $terms
 bindsym $mod+2 workspace $web
 bindsym $mod+3 workspace $kb
-bindsym $mod+4 workspace number $ws4
+bindsym $mod+4 workspace $email
 bindsym $mod+5 workspace number $ws5
 bindsym $mod+6 workspace number $ws6
 bindsym $mod+7 workspace number $ws7
@@ -129,10 +129,10 @@ bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace number $ws10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace number $ws1
-bindsym $mod+Shift+2 move container to workspace number $ws2
-bindsym $mod+Shift+3 move container to workspace number $ws3
-bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+1 move container to workspace number $terms
+bindsym $mod+Shift+2 move container to workspace number $web
+bindsym $mod+Shift+3 move container to workspace number $kb
+bindsym $mod+Shift+4 move container to workspace number $email
 bindsym $mod+Shift+5 move container to workspace number $ws5
 bindsym $mod+Shift+6 move container to workspace number $ws6
 bindsym $mod+Shift+7 move container to workspace number $ws7
@@ -182,5 +182,11 @@ bar {
 
 # Wallpaper
 exec --no-startup-id feh --no-fehbg --bg-fill '/home/david/.config/bg/cc45a35qcv281.png'
-# Transparency
+
+# Transparency support via compton
 exec --no-startup-id "compton -b"
+
+# Startup commands
+# Setup the kb: KnowledgeBase workspace
+exec --no-startup-id i3-msg '/home/david/.cargo/bin/mdbook serve /home/david/dev/knowledge-base/'
+exec --no-startup-id i3-msg 'workspace 3:kb; exec /usr/bin/firefox --new-window localhost:3000'
