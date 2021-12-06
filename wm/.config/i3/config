@@ -105,10 +105,10 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $terms "1: terms"
-set $web "2: web"
-set $kb "3: kb"
-set $email "4: email"
+set $terms "1:terms"
+set $web "2:web"
+set $kb "3:kb"
+set $email "4:email"
 set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
@@ -187,6 +187,12 @@ exec --no-startup-id feh --no-fehbg --bg-fill '/home/david/.config/bg/cc45a35qcv
 exec --no-startup-id "compton -b"
 
 # Startup commands
-# Setup the kb: KnowledgeBase workspace
-exec --no-startup-id i3-msg '/home/david/.cargo/bin/mdbook serve /home/david/dev/knowledge-base/'
+# workspace email
+exec --no-startup-id i3-msg 'workspace 4:email; exec /usr/bin/thunderbird'
+# workspace kb
+exec --no-startup-id i3-msg 'workspace 3:kb; exec /home/david/.cargo/bin/mdbook serve /home/david/dev/knowledge-base/'
 exec --no-startup-id i3-msg 'workspace 3:kb; exec /usr/bin/firefox --new-window localhost:3000'
+# workspace web
+exec --no-startup-id i3-msg 'workspace 2:web; exec /usr/bin/firefox --new-window google.com'
+# workspace terms
+exec --no-startup-id i3-msg 'workspace 1:terms; exec /usr/local/bin/alacritty'
