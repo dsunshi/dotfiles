@@ -180,6 +180,10 @@ bar {
         status_command i3status
 }
 
+# Per workspace configurations
+assign [class="firefox" instance="kb"] -> $kb
+assign [class="firefox" instance="web"] -> $web
+
 # Wallpaper
 exec --no-startup-id feh --no-fehbg --bg-fill '/home/david/.config/bg/cc45a35qcv281.png'
 
@@ -191,8 +195,10 @@ exec --no-startup-id "compton -b"
 exec --no-startup-id i3-msg 'workspace 4:email; exec /usr/bin/thunderbird'
 # workspace kb
 exec --no-startup-id i3-msg 'workspace 3:kb; exec /home/david/.cargo/bin/mdbook serve /home/david/dev/knowledge-base/'
-exec --no-startup-id i3-msg 'workspace 3:kb; exec /usr/bin/firefox --new-window localhost:3000'
+exec --no-startup-id i3-msg 'exec /usr/bin/firefox --class="kb" --new-window localhost:3000'
 # workspace web
-exec --no-startup-id i3-msg 'workspace 2:web; exec /usr/bin/firefox --new-window google.com'
+exec --no-startup-id i3-msg 'workspace 2:web; exec /usr/bin/firefox --class="web" --new-window google.com'
 # workspace terms
 exec --no-startup-id i3-msg 'workspace 1:terms; exec /usr/local/bin/alacritty'
+
+
