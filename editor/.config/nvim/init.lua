@@ -8,7 +8,7 @@ require('packer').startup(function(use)
     -- have Packer manage itself
     use { 'wbthomason/packer.nvim', opt = true }
 
-    use 'marko-cerovac/material.nvim'  -- colorscheme
+    use 'EdenEast/nightfox.nvim' -- colorscheme
     use 'xiyaowong/nvim-transparent' -- transparency enable/disable
 
     use 'rhysd/vim-clang-format'
@@ -56,13 +56,13 @@ end)
 -- =============================================================================
 -- Colorscheme {{{1
 -- =============================================================================
-vim.cmd [[colorscheme material]]
+require('nightfox').load('duskfox')
 require('lualine').setup {
   options = {
-    theme = 'nord'
+    theme = 'nightfox'
   }
 }
-vim.g.material_style = "deep ocean"
+-- vim.g.material_style = "deep ocean"
 
 
 -- =============================================================================
