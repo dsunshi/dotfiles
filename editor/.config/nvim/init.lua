@@ -101,8 +101,8 @@ vim.opt.tabstop       = tabsize                        -- Spaces per tab
 vim.opt.showbreak     = '↳ '                           -- Downwards arrow with tip rightwards (U+21B3, UTF-8: E2 86 B3)
 vim.opt.smarttab      = true                           -- <tab>/<BS> indent/dedent in leading whitespace
 
-vim.opt.completeopt    = 'menuone,noinsert,noselect'
-vim.opt.shortmess      = vim.opt.shortmess + 'c'
+vim.opt.completeopt    = 'menuone,noinsert,noselect'   -- Better auto completion settings
+vim.opt.shortmess      = vim.opt.shortmess + 'c'       -- Do not give ins-completion-menu messages
 
 -- =============================================================================
 -- GUI {{{1
@@ -117,8 +117,8 @@ vim.opt.splitright    = true                      -- Open vertical splits to the
 -- Options {{{1
 -- =============================================================================
 
-vim.g.mapleader = ' ' -- Map leader to space
-vim.g.rustfmt_autosave  = true
+vim.g.mapleader = ' '           -- Map leader to space
+vim.g.rustfmt_autosave = true   -- Format rust code when the buffer is saved
 
 -- Disable folding in markdown since it is more of a pain than anything
 vim.g.vim_markdown_folding_disabled = 1
@@ -177,9 +177,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     update_in_insert = true,
   }
 )
-
--- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menu,menuone,noselect'
 
 -- luasnip setup
 local luasnip = require 'luasnip'
