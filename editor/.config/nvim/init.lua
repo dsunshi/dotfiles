@@ -43,8 +43,7 @@ require('packer').startup(function(use)
 
     -- Snippets
     -- =========================================================================
-    use 'L3MON4D3/LuaSnip'            -- Snippets plugin
-    use 'saadparwaiz1/cmp_luasnip'    -- cmp compatibility
+    use 'SirVer/ultisnips'            -- Snippets plugin
 
     -- Status line
     -- =========================================================================
