@@ -23,7 +23,7 @@ require('packer').startup(function(use)
     use 'tpope/vim-fugitive'                           -- Git integration
     use 'tommcdo/vim-lion'                             -- Text alignment
     use 'plasticboy/vim-markdown'                      -- Markdown support
-    use 'kshenoy/vim-signature'                        -- Place, toggle and display marks.
+    use 'kshenoy/vim-signature'                        -- Place, toggle, and display marks.
     use 'tpope/vim-surround'                           -- Change text surrounds
     use 'junegunn/fzf.vim'                             -- Fuzzy searching
     use 'justinmk/vim-sneak'                           -- Text search
@@ -35,16 +35,16 @@ require('packer').startup(function(use)
     -- =========================================================================
     use 'nvim-lua/lsp_extensions.nvim'  -- Extensions to built-in LSP, for example, providing type inlay hints
     use 'neovim/nvim-lspconfig'         -- Collection of configurations for built-in LSP client
-    use 'hrsh7th/cmp-nvim-lsp'
-    use 'hrsh7th/cmp-buffer'
-    use 'hrsh7th/cmp-path'
-    use 'hrsh7th/cmp-cmdline'
-    use 'hrsh7th/nvim-cmp'
+    use 'hrsh7th/nvim-cmp'              -- A completion engine
+    use 'hrsh7th/cmp-nvim-lsp'          -- Completions based on the LSP client
+    use 'hrsh7th/cmp-buffer'            -- Completions for buffer words
+    use 'hrsh7th/cmp-path'              -- Completions for filesystem paths
+    use 'hrsh7th/cmp-cmdline'           -- Completions for command mode
 
     -- Snippets
     -- =========================================================================
     use 'L3MON4D3/LuaSnip'            -- Snippets plugin
-    use 'saadparwaiz1/cmp_luasnip'    -- cmp compatability
+    use 'saadparwaiz1/cmp_luasnip'    -- cmp compatibility
 
     -- Status line
     -- =========================================================================
@@ -63,7 +63,6 @@ require('lualine').setup {
     theme = 'nightfox'
   }
 }
--- vim.g.material_style = "deep ocean"
 
 
 -- =============================================================================
@@ -72,47 +71,47 @@ require('lualine').setup {
 
 local tabsize = 4
 
-vim.opt.number         = true   -- show line numbers in gutter
-vim.opt.relativenumber = true   -- show relative numbers in gutter
-vim.opt.textwidth      = 80     -- automatically hard wrap at 80 columns
-vim.opt.scrolloff      = 3      -- start scrolling 3 lines before edge of viewport
-vim.opt.cursorline     = true   -- highlight current line
-vim.opt.expandtab      = true   -- always use spaces instead of tabs
+vim.opt.number         = true                          -- Show line numbers in gutter
+vim.opt.relativenumber = true                          -- Show relative numbers in gutter
+vim.opt.textwidth      = 80                            -- Automatically hard wrap at 80 columns
+vim.opt.scrolloff      = 3                             -- Start scrolling 3 lines before edge of viewport
+vim.opt.cursorline     = true                          -- Highlight current line
+vim.opt.expandtab      = true                          -- Always use spaces instead of tabs
 vim.opt.fillchars      = {
-  diff                 = '∙',                              -- BULLET OPERATOR (U+2219, UTF-8: E2 88 99)
-  eob                  = ' ',                              -- NO-BREAK SPACE (U+00A0, UTF-8: C2 A0) to suppress ~ at EndOfBuffer
-  fold                 = '·',                              -- MIDDLE DOT (U+00B7, UTF-8: C2 B7)
-  vert                 = '┃',                              -- BOX DRAWINGS HEAVY VERTICAL (U+2503, UTF-8: E2 94 83)
+  diff                 = '∙',                          -- Bullet operator (U+2219, UTF-8: E2 88 99)
+  eob                  = ' ',                          -- No-break space (U+00A0, UTF-8: C2 A0) to suppress ~ at EndOfBuffer
+  fold                 = '·',                          -- Middle dot (U+00B7, UTF-8: C2 B7)
+  vert                 = '┃',                          -- Box drawings heavy vertical (U+2503, UTF-8: E2 94 83)
 }
-vim.opt.formatoptions  = vim.opt.formatoptions + 'j'       -- remove comment leader when joining comment lines
-vim.opt.formatoptions  = vim.opt.formatoptions + 'n'       -- smart auto-indenting inside numbered lists
-vim.opt.laststatus     = 2                                 -- always show status line
-vim.opt.lazyredraw     = true                              -- don't bother updating screen during macro playback
-vim.opt.linebreak      = true                              -- wrap long lines at characters in 'breakat'
-vim.opt.list           = true                              -- show whitespace
+vim.opt.formatoptions  = vim.opt.formatoptions + 'j'   -- Remove comment leader when joining comment lines
+vim.opt.formatoptions  = vim.opt.formatoptions + 'n'   -- Smart auto-indenting inside numbered lists
+vim.opt.laststatus     = 2                             -- Always show status line
+vim.opt.lazyredraw     = true                          -- Don't bother updating screen during macro playback
+vim.opt.linebreak      = true                          -- Wrap long lines at characters in 'breakat'
+vim.opt.list           = true                          -- Show whitespace
 vim.opt.listchars      = {
-  nbsp                 = '⦸',                              -- CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
-  extends              = '»',                              -- RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
-  precedes             = '«',                              -- LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
-  tab                  = '▷⋯',                             -- WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7) + MIDLINE HORIZONTAL ELLIPSIS (U+22EF, UTF-8: E2 8B AF)
-  trail                = '•',                              -- BULLET (U+2022, UTF-8: E2 80 A2)
+  nbsp                 = '⦸',                          -- Circled reverse solidus (U+29B8, UTF-8: E2 A6 B8)
+  extends              = '»',                          -- Right-pointing double angle quotation mark (U+00BB, UTF-8: C2 BB)
+  precedes             = '«',                          -- Left-pointing double angle quotation mark (U+00AB, UTF-8: C2 AB)
+  tab                  = '▷⋯',                         -- White right-pointing triangle (U+25B7, UTF-8: E2 96 B7) + midline horizontal ellipsis (U+22EF, UTF-8: E2 8B AF)
+  trail                = '•',                          -- Bullet (U+2022, UTF-8: E2 80 A2)
 }
-vim.opt.shiftwidth    = tabsize                       -- spaces per tab (when shifting)
-vim.opt.tabstop       = tabsize                       -- spaces per tab
-vim.opt.showbreak     = '↳ '                    -- DOWNWARDS ARROW WITH TIP RIGHTWARDS (U+21B3, UTF-8: E2 86 B3)
-vim.opt.smarttab      = true                    -- <tab>/<BS> indent/dedent in leading whitespace
+vim.opt.shiftwidth    = tabsize                        -- Spaces per tab (when shifting)
+vim.opt.tabstop       = tabsize                        -- Spaces per tab
+vim.opt.showbreak     = '↳ '                           -- Downwards arrow with tip rightwards (U+21B3, UTF-8: E2 86 B3)
+vim.opt.smarttab      = true                           -- <tab>/<BS> indent/dedent in leading whitespace
 
 vim.opt.completeopt    = 'menuone,noinsert,noselect'
-vim.opt.shortmess    = vim.opt.shortmess + 'c'
+vim.opt.shortmess      = vim.opt.shortmess + 'c'
 
 -- =============================================================================
 -- GUI {{{1
 -- =============================================================================
 
-vim.opt.guifont        = 'JetBrainsMono NF:h16'            -- patched version from https://www.nerdfonts.com/#home
-vim.opt.belloff        = 'all'                             -- never ring the bell for any reason
-vim.opt.splitbelow    = true                    -- open horizontal splits below current window
-vim.opt.splitright    = true                    -- open vertical splits to the right of the current window
+vim.opt.guifont       = 'JetBrainsMono NF:h16'    -- Patched version from https://www.nerdfonts.com/#home
+vim.opt.belloff       = 'all'                     -- Never ring the bell for any reason
+vim.opt.splitbelow    = true                      -- Open horizontal splits below current window
+vim.opt.splitright    = true                      -- Open vertical splits to the right of the current window
 
 -- =============================================================================
 -- Options {{{1
@@ -121,15 +120,15 @@ vim.opt.splitright    = true                    -- open vertical splits to the r
 vim.g.mapleader = ' ' -- Map leader to space
 vim.g.rustfmt_autosave  = true
 
--- Disable folding in markdown since it is more of a pain than anyghing
-vim.g.vim_markdown_folding_disabled=1
+-- Disable folding in markdown since it is more of a pain than anything
+vim.g.vim_markdown_folding_disabled = 1
 
 local lspconfig = require('lspconfig')
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-  --Enable completion triggered by <c-x><c-o>
+  -- Enable completion triggered by <c-x><c-o>
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   -- Mappings.
@@ -239,7 +238,7 @@ vim.cmd('filetype indent plugin on')
 vim.cmd('syntax on')
 
 require("transparent").setup({
-  enable = false, -- boolean: enable transparent
+  enable = false,  -- boolean: enable transparent
   extra_groups = { -- table/string: additional groups that should be clear
     -- In particular, when you set it to 'all', that means all avaliable groups
 
