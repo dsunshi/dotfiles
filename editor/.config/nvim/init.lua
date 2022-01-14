@@ -5,52 +5,53 @@
 vim.cmd [[packadd packer.nvim]]
 
 require('packer').startup(function(use)
-    -- have Packer manage itself
+    -- Have Packer manage itself
     use { 'wbthomason/packer.nvim', opt = true }
 
-    use 'EdenEast/nightfox.nvim' -- colorscheme
-    use 'xiyaowong/nvim-transparent' -- transparency enable/disable
+    -- Appearance
+    -- =========================================================================
+    use 'EdenEast/nightfox.nvim'         -- Color scheme
+    use 'xiyaowong/nvim-transparent'     -- Transparency enable/disable
 
-    use 'rhysd/vim-clang-format'
-
-    -- rust
+    -- Rust
+    -- =========================================================================
     use 'rust-lang/rust.vim'
 
-    use 'tomtom/tcomment_vim' -- code commenting
-    use 'tpope/vim-fugitive' -- git integration
-    use 'tommcdo/vim-lion' -- text alignment
-    use 'plasticboy/vim-markdown' -- markdown support
-    use 'kshenoy/vim-signature' -- place, toggle and display marks.
-    use 'tpope/vim-surround' -- change text surrounds
-    --use 'junegunn/goyo.vim' -- focused editing
-    --use 'junegunn/limelight.vim' -- more focused editing
-    use 'junegunn/fzf.vim' -- fuzzy searching
-    use 'justinmk/vim-sneak' -- text search
+    -- Code Editing (IDE)
+    -- =========================================================================
+    use 'tomtom/tcomment_vim'                          -- Code commenting
+    use 'tpope/vim-fugitive'                           -- Git integration
+    use 'tommcdo/vim-lion'                             -- Text alignment
+    use 'plasticboy/vim-markdown'                      -- Markdown support
+    use 'kshenoy/vim-signature'                        -- Place, toggle and display marks.
+    use 'tpope/vim-surround'                           -- Change text surrounds
+    use 'junegunn/fzf.vim'                             -- Fuzzy searching
+    use 'justinmk/vim-sneak'                           -- Text search
 
-
-    use 'nvim-treesitter/nvim-treesitter'  -- Highlight, edit, and navigate code using a fast incremental parsing library
+    use 'nvim-treesitter/nvim-treesitter'              -- Highlight, edit, and navigate code using a fast incremental parsing library
     use 'nvim-treesitter/nvim-treesitter-textobjects'  -- Additional textobjects for treesitter
 
-    -- lsp / autocomplete
-    use 'nvim-lua/lsp_extensions.nvim' -- Extensions to built-in LSP, for example, providing type inlay hints
-    use 'neovim/nvim-lspconfig' -- Collection of configurations for built-in LSP client
+    -- LSP / Autocomplete
+    -- =========================================================================
+    use 'nvim-lua/lsp_extensions.nvim'  -- Extensions to built-in LSP, for example, providing type inlay hints
+    use 'neovim/nvim-lspconfig'         -- Collection of configurations for built-in LSP client
     use 'hrsh7th/cmp-nvim-lsp'
     use 'hrsh7th/cmp-buffer'
     use 'hrsh7th/cmp-path'
     use 'hrsh7th/cmp-cmdline'
     use 'hrsh7th/nvim-cmp'
 
-    -- luasnip
-    use 'L3MON4D3/LuaSnip' -- Snippets plugin
-    use 'saadparwaiz1/cmp_luasnip' -- cmp compatability
+    -- Snippets
+    -- =========================================================================
+    use 'L3MON4D3/LuaSnip'            -- Snippets plugin
+    use 'saadparwaiz1/cmp_luasnip'    -- cmp compatability
 
-    -- status line
+    -- Status line
+    -- =========================================================================
     use {
         'hoob3rt/lualine.nvim',
         requires = {'kyazdani42/nvim-web-devicons', opt = true}
     }
-
-
 end)
 
 -- =============================================================================
