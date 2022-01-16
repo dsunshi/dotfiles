@@ -170,6 +170,31 @@ for _, lsp in ipairs(servers) do
   }
 end
 
+-- Rust LSP configuration
+local nvim_lsp = require'lspconfig'
+
+-- This will let rust-analyzer search the local path structure and use
+-- the Cargo.toml file to find crates that have been listed as dependencies,
+-- i.e. this will allow rust-anaylzer to play nice with crates listed in
+-- Cargo.toml
+nvim_lsp.rust_analyzer.setup({
+    on_attach=on_attach,
+    settings = {
+        ["rust-analyzer"] = {
+            assist = {
+                importGranularity = "module",
+                importPrefix = "by_self",
+            },
+            cargo = {
+                loadOutDirsFromCheck = true
+            },
+            procMacro = {
+                enable = true
+            },
+        }
+    }
+})
+
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
     virtual_text = true,
