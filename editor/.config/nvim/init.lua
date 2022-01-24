@@ -8,6 +8,13 @@ require('packer').startup(function(use)
     -- Have Packer manage itself
     use { 'wbthomason/packer.nvim', opt = true }
 
+    -- Searching
+    -- =========================================================================
+    use {
+          'nvim-telescope/telescope.nvim',
+           requires = { {'nvim-lua/plenary.nvim'} }
+    }
+
     -- Appearance
     -- =========================================================================
     use 'EdenEast/nightfox.nvim'         -- Color scheme
@@ -118,7 +125,25 @@ vim.opt.splitright    = true                      -- Open vertical splits to the
 -- Options {{{1
 -- =============================================================================
 
+-- Make sure the updated leader mapping is the first thing done
 vim.g.mapleader = ' '           -- Map leader to space
+
+-- Function to map keys
+local map = vim.api.nvim_set_keymap
+-- noremap is definitly a safe bet here
+local default_opts = {noremap = true}
+
+-- telescope settings
+-- ==================
+--  > keybindings
+
+-- Search hidden folders, but not .git
+map('n', '<leader>ff', "<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<cr>", default_opts)
+
+map("n", "<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", default_opts)
+map("n", "<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", default_opts)
+map("n", "<leader>fh", "<cmd>lua require('telescope.builtin').help_tags()<cr>", default_opts)
+
 vim.g.rustfmt_autosave = true   -- Format rust code when the buffer is saved
 
 -- Disable folding in markdown since it is more of a pain than anything

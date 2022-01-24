@@ -25,12 +25,14 @@ the [nightfox.nvim](https://github.com/EdenEast/nightfox.nvim) colorscheme.
  * JetBrains font
  * Powerline font
  * Font Awesome
+ * ripgrep
+ * python3 with pynvim
 
 ## Installation
 ### Clone
 The folder structure of the repository is designed to work with `stow` so this
 repository must be checked out to your home directory.
-```bash
+```shell
 cd                     # Make sure we are home
 git clone https://github.com/sunshin-es/dot-files.git
 mv dot-files .dotfiles # Give the repository a better name
@@ -50,7 +52,7 @@ git clone --depth 1 https://github.com/wbthomason/packer.nvim\
 Some of the tools are grouped together, but `stow` must be run from the root of
 the repository.
 
-```bash
+```shell
 stow editor # Neovim configuration
 stow term   # tmux, fish, and alacritty configurations
 stow wm     # i3 configuration
