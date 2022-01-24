@@ -103,7 +103,8 @@ vim.opt.smarttab      = true                           -- <tab>/<BS> indent/dede
 vim.opt.completeopt    = 'menuone,noinsert,noselect'   -- Better auto completion settings
 vim.opt.shortmess      = vim.opt.shortmess + 'c'       -- Do not give ins-completion-menu messages
 
-vim.opt.showmatch = true                               -- Show matchin (), [], or {}
+vim.opt.showmatch   = true                             -- Show matching (), [], or {}
+vim.opt.colorcolumn = '120'                            -- Show the color column
 -- =============================================================================
 -- GUI {{{1
 -- =============================================================================
