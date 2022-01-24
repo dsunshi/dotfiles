@@ -12,6 +12,11 @@ The main development environment is based on the following tools:
  * fish
  * alacritty
 
+### Main Mod/Prefix/Leader Keybindings
+ * in Vim the leader key is: <kbd>Space</kbd>
+ * in tmux the prefix is: <kbd>CTRL</kbd> + <kbd>a</kbd>
+ * in i3 the mod key is: <kbd>GUI</kbd>
+
 As much as possible the style of these different tools are all based on
 the [nightfox.nvim](https://github.com/EdenEast/nightfox.nvim) colorscheme.
 
@@ -30,6 +35,17 @@ cd                     # Make sure we are home
 git clone https://github.com/sunshin-es/dot-files.git
 mv dot-files .dotfiles # Give the repository a better name
 ```
+
+### Plugin Manager
+Packer.nvim is used to manage Vim plugins, this needs to be installed to somewhere on your `packpath`, e.g.:
+
+> Unix, Linux Installation
+
+```shell
+git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+ ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+```
+
 ### Install
 Some of the tools are grouped together, but `stow` must be run from the root of
 the repository.
