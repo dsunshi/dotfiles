@@ -17,6 +17,9 @@ the [nightfox.nvim](https://github.com/EdenEast/nightfox.nvim) colorscheme.
 
 ## Dependencies
  * Neovim v0.5.0
+ * JetBrains font
+ * Powerline font
+ * Font Awesome
 
 ## Installation
 ### Clone
