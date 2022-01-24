@@ -21,7 +21,7 @@ As much as possible the style of these different tools are all based on
 the [nightfox.nvim](https://github.com/EdenEast/nightfox.nvim) colorscheme.
 
 ## Dependencies
- * Neovim v0.5.0
+ * Neovim v0.6.0
  * JetBrains font
  * Powerline font
  * Font Awesome
