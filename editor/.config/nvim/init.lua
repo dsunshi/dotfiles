@@ -19,6 +19,7 @@ require('packer').startup(function(use)
     -- =========================================================================
     use 'EdenEast/nightfox.nvim'         -- Color scheme
     use 'xiyaowong/nvim-transparent'     -- Transparency enable/disable
+    use 'norcalli/nvim-colorizer.lua'    -- Display colors in Vim
 
     -- Rust
     -- =========================================================================
@@ -122,6 +123,13 @@ vim.opt.guifont       = 'JetBrainsMono NF:h16'    -- Patched version from https:
 vim.opt.belloff       = 'all'                     -- Never ring the bell for any reason
 vim.opt.splitbelow    = true                      -- Open horizontal splits below current window
 vim.opt.splitright    = true                      -- Open vertical splits to the right of the current window
+
+-- require'colorizer'.setup()
+
+require 'colorizer'.setup {
+  '*'; -- Highlight all files, but customize some others.
+  rust = { rgb_fn = true; }; -- Enable parsing rgb(...) functions in rust.
+}
 
 -- =============================================================================
 -- Options {{{1
