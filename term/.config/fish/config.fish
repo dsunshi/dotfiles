@@ -1,5 +1,6 @@
 # Give NVIM a better name
 alias vim="nvim"
+alias ls="exa --long --header --git --icons"
 
 # Nightfox Color Palette
 # Style: duskfox
