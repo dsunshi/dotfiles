@@ -292,7 +292,7 @@ mode "$mode_gaps_outer" {
 # exec --no-startup-id "compton -b"
 
 # Startup commands
-exec --no-startup-id start_conky_maia
+# exec --no-startup-id start_conky_maia
 exec --no-startup-id xautolock -time 10 -locker blurlock
 exec --no-startup-id nm-applet
 exec_always --no-startup-id ff-theme-util

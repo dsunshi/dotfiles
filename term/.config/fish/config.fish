@@ -38,3 +38,9 @@ set -g fish_pager_color_progress $comment
 set -g fish_pager_color_prefix $cyan
 set -g fish_pager_color_completion $foreground
 set -g fish_pager_color_description $comment
+
+colorscript -e 35
+
+# starship.rs
+starship init fish | source
+
