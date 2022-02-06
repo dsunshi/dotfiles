@@ -27,6 +27,14 @@ require('packer').startup(function(use)
     -- Extr rust analyzer functionality
     use 'simrat39/rust-tools.nvim'
 
+    -- Markdown
+    -- =========================================================================
+    use {
+        'iamcco/markdown-preview.nvim',
+        run = function() vim.fn['mkdp#util#install']() end,
+        ft = {'markdown'}
+    }
+
     -- Code Editing (IDE)
     -- =========================================================================
     use 'tomtom/tcomment_vim'                          -- Code commenting
@@ -123,8 +131,6 @@ vim.opt.belloff       = 'all'                     -- Never ring the bell for any
 vim.opt.splitbelow    = true                      -- Open horizontal splits below current window
 vim.opt.splitright    = true                      -- Open vertical splits to the right of the current window
 
--- require'colorizer'.setup()
-
 require 'colorizer'.setup {
   '*'; -- Highlight all files, but customize some others.
   rust = { rgb_fn = true; }; -- Enable parsing rgb(...) functions in rust.
@@ -133,6 +139,7 @@ require 'colorizer'.setup {
 -- =============================================================================
 -- Options {{{1
 -- =============================================================================
+
 
 -- Make sure the updated leader mapping is the first thing done
 vim.g.mapleader = ' '           -- Map leader to space
@@ -144,6 +151,16 @@ local default_opts = {noremap = true}
 
 -- Transparency
 map("n", "<leader>tt", "<cmd>TransparentToggle<cr>", default_opts)
+
+-- markdown preview
+map("n", "<leader>mp", "<cmd>MarkdownPreview<cr>", default_opts)
+-- specify browser to open preview page
+-- default: ''
+-- This script will force qutebrowser to open a new window for the preview
+vim.g.mkdp_browser = 'mdbrowser'
+-- use a custom markdown style must be absolute path
+-- like '/Users/username/markdown.css' or expand('~/markdown.css')
+-- vim.g.mkdp_markdown_css = vim.fn.expand('~/.config/nvim/github-markdown-dark.css')
 
 -- telescope settings
 -- ==================

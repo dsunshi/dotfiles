@@ -1,6 +1,8 @@
 # Give NVIM a better name
 alias vim="nvim"
+alias v="nvim"
 alias ls="exa --long --header --git --icons"
+alias cdd="cd ~/.dotfiles"
 
 # Nightfox Color Palette
 # Style: duskfox
@@ -39,7 +41,7 @@ set -g fish_pager_color_prefix $cyan
 set -g fish_pager_color_completion $foreground
 set -g fish_pager_color_description $comment
 
-colorscript -e 35
+colorscript -e (random choice 3 33 35 48)
 
 # starship.rs
 starship init fish | source
