@@ -214,7 +214,7 @@ bar {
         separator #666666
         background #222222
         statusline #dddddd
-        focused_workspace #81A1C1 #81A1C1 #ffffff
+        focused_workspace #BF616A #BF616A #ffffff
         active_workspace #333333 #333333 #ffffff
         inactive_workspace #333333 #333333 #888888
         urgent_workspace #2f343a #900000 #ffffff
@@ -303,7 +303,11 @@ exec --no-startup-id nitrogen --restore; sleep 1; picom -b
 
 exec --no-startup-id i3-msg 'workspace 1; exec /usr/bin/alacritty'
 
+# start the internet
+bindsym $mod+i exec qutebrowser
 
+# class                 border  backgr. text    indicator child_border
+# client.focused          #BF616A #285577 #ffffff #BF616A   #285577
 # Color palette used for the terminal ( ~/.Xresources file )
 # Colors are gathered based on the documentation:
 # https://i3wm.org/docs/userguide.html#xresources

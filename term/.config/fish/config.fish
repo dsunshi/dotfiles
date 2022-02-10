@@ -41,7 +41,7 @@ set -g fish_pager_color_prefix $cyan
 set -g fish_pager_color_completion $foreground
 set -g fish_pager_color_description $comment
 
-colorscript -e (random choice 3 33 35 48)
+colorscript -e (random choice 1 3 6 22 23 26 33 35 48)
 
 # starship.rs
 starship init fish | source
