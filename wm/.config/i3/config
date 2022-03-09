@@ -11,7 +11,7 @@ set $mod Mod4
 
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
 default_border pixel 1
-default_floating_border normal
+# default_floating_border normal
 
 # Hide borders
 hide_edge_borders none
@@ -305,6 +305,11 @@ exec --no-startup-id i3-msg 'workspace 1; exec /usr/bin/alacritty'
 
 # start the internet
 bindsym $mod+i exec qutebrowser
+
+# Lauch the wiki in a floating window
+for_window [ title="wiki_window" ] floating enable
+
+bindsym $mod+n exec alacritty -o window.title=wiki_window -t wiki_window -e startwiki
 
 # class                 border  backgr. text    indicator child_border
 # client.focused          #BF616A #285577 #ffffff #BF616A   #285577

@@ -21,6 +21,10 @@ require('packer').startup(function(use)
     use 'xiyaowong/nvim-transparent'     -- Transparency enable/disable
     use 'norcalli/nvim-colorizer.lua'    -- Display colors in Vim
 
+    -- Notes
+    -- =========================================================================
+    use 'vimwiki/vimwiki'
+    use 'tbabej/taskwiki'   -- TaskWarrior integration
     -- Rust
     -- =========================================================================
     use 'rust-lang/rust.vim'
@@ -161,6 +165,27 @@ vim.g.mkdp_browser = 'mdbrowser'
 -- use a custom markdown style must be absolute path
 -- like '/Users/username/markdown.css' or expand('~/markdown.css')
 -- vim.g.mkdp_markdown_css = vim.fn.expand('~/.config/nvim/github-markdown-dark.css')
+
+-- vimwiki settings
+-- ==================
+vim.g.vimwiki_list = {
+    {
+        path = '~/.vimwiki',
+        syntax = 'markdown',
+        ext = '.md',
+    }
+}
+-- vim.g.vimwiki_ext2syntax = {
+-- 	'.md'= 'markdown',
+-- 	'.markdown'= 'markdown',
+-- 	'.mdown'= 'markdown',
+-- }
+
+-- Makes vimwiki use markdown links as [text](text.md) instead of [text](text)
+vim.g.vimwiki_markdown_link_ext = 1
+
+vim.g.taskwiki_markup_syntax = 'markdown'
+-- vim.g.markdown_folding = 1
 
 -- telescope settings
 -- ==================
