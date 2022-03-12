@@ -70,13 +70,13 @@ require('packer').startup(function(use)
             {'hrsh7th/cmp-cmdline', after = 'nvim-cmp'}
         },
         -- cmp config
-        config = function() require("config.cmp") end
+        -- config = function() require("config.cmp") end
     }
     use { 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' }
     use {
         'L3MON4D3/LuaSnip',
         after = 'nvim-cmp',
-        config = function() require('config.snippets') end,
+        -- config = function() require('config.snippets') end,
     }
     use 'nvim-lua/lsp_extensions.nvim'  -- Extensions to built-in LSP, for example, providing type inlay hints
     use 'neovim/nvim-lspconfig'         -- Collection of configurations for built-in LSP client
@@ -131,38 +131,42 @@ vim.g.rustfmt_autosave = true   -- Format rust code when the buffer is saved
 -- Disable folding in markdown since it is more of a pain than anything
 vim.g.vim_markdown_folding_disabled = 1
 
--- luasnip setup
--- local luasnip = require 'luasnip'
-
 -- nvim-cmp setup
-local cmp = require 'cmp'
-cmp.setup {
+local cmp = require'cmp'
+cmp.setup({
   snippet = {
     expand = function(args)
-      luasnip.lsp_expand(args.body)
+        local luasnip = require("luasnip")
+        if not luasnip then
+            return
+        end
+        luasnip.lsp_expand(args.body)
     end,
   },
   mapping = {
     ['<C-p>'] = cmp.mapping.select_prev_item(),
     ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
-    ['<Tab>'] = function(fallback)
+    -- Add tab support
+    ["<Tab>"] = cmp.mapping(function(fallback)
+      local luasnip = require("luasnip")
+      if not luasnip then
+          return
+      end
       if cmp.visible() then
         cmp.select_next_item()
       elseif luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
+      elseif has_words_before() then
+        cmp.complete()
       else
         fallback()
       end
-    end,
-    ['<S-Tab>'] = function(fallback)
+    end, { "i", "s" }),
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
+      local luasnip = require("luasnip")
+      if not luasnip then
+          return
+      end
       if cmp.visible() then
         cmp.select_prev_item()
       elseif luasnip.jumpable(-1) then
@@ -170,50 +174,22 @@ cmp.setup {
       else
         fallback()
       end
-    end,
+    end, { "i", "s" }),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm({
+      behavior = cmp.ConfirmBehavior.Insert,
+      select = true,
+    })
   },
+
+  -- Installed sources
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = 'path' },
+    { name = 'buffer' },
   },
-}
-
--- luasnip setup
---local luasnip = require 'luasnip'
-
--- nvim-cmp setup
--- local cmp = require'cmp'
--- cmp.setup({
---   snippet = {
---     expand = function(args)
---         local luasnip = prequire("luasnip")
---         if not luasnip then
---             return
---         end
---         luasnip.lsp_expand(args.body)
---     end,
---   },
---   mapping = {
---     ['<C-p>'] = cmp.mapping.select_prev_item(),
---     ['<C-n>'] = cmp.mapping.select_next_item(),
---     -- Add tab support
---     ['<S-Tab>'] = cmp.mapping.select_prev_item(),
---     ['<Tab>'] = cmp.mapping.select_next_item(),
---     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
---     ['<C-f>'] = cmp.mapping.scroll_docs(4),
---     ['<C-Space>'] = cmp.mapping.complete(),
---     ['<C-e>'] = cmp.mapping.close(),
---     ['<CR>'] = cmp.mapping.confirm({
---       behavior = cmp.ConfirmBehavior.Insert,
---       select = true,
---     })
---   },
---
---   -- Installed sources
---   sources = {
---     { name = 'nvim_lsp' },
---     { name = 'luasnip' },
---     { name = 'path' },
---     { name = 'buffer' },
---   },
--- })
+})
