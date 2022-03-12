@@ -23,7 +23,11 @@ require('packer').startup(function(use)
 
     -- Notes
     -- =========================================================================
-    use 'vimwiki/vimwiki'
+    use {
+        'vimwiki/vimwiki',
+        -- vimwiki config: nvim/lua/config/wiki.lua
+        config = function() require("config.wiki") end
+    }
     use 'tbabej/taskwiki'   -- TaskWarrior integration
     -- Rust
     -- =========================================================================
@@ -63,20 +67,19 @@ require('packer').startup(function(use)
     use {
         'hrsh7th/nvim-cmp',
         requires = {
-            {'hrsh7th/cmp-buffer', after = 'nvim-cmp'},
-            {'hrsh7th/cmp-nvim-lsp', after = 'nvim-cmp'},
-            {'hrsh7th/cmp-buffer', after = 'nvim-cmp'},
-            {'hrsh7th/cmp-path', after = 'nvim-cmp'},
-            {'hrsh7th/cmp-cmdline', after = 'nvim-cmp'}
+            {'hrsh7th/cmp-buffer'},
+            {'hrsh7th/cmp-nvim-lsp'},
+            {'hrsh7th/cmp-buffer'},
+            {'hrsh7th/cmp-path'},
+            {'hrsh7th/cmp-cmdline'}
         },
-        -- cmp config
-        -- config = function() require("config.cmp") end
+        -- cmp config: nvim/lua/config/cmp.lua
+        config = function() require("config.cmp") end
     }
-    use { 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' }
+    use { 'saadparwaiz1/cmp_luasnip' }
     use {
         'L3MON4D3/LuaSnip',
         after = 'nvim-cmp',
-        -- config = function() require('config.snippets') end,
     }
     use 'nvim-lua/lsp_extensions.nvim'  -- Extensions to built-in LSP, for example, providing type inlay hints
     use 'neovim/nvim-lspconfig'         -- Collection of configurations for built-in LSP client
@@ -105,91 +108,238 @@ require('lualine').setup {
 -- Make sure the updated leader mapping is done early
 vim.g.mapleader = ' '           -- Map leader to space
 
--- editor settings
+-- editor settings: nvim/lua/editor.lua
 require('editor')
--- gui settings
+-- gui settings: nvim/lua/gui.lua
 require('gui')
--- key mappings
+-- key mappings: nvim/lua/keymap.lua
 require('keymap')
 
--- vimwiki settings
--- ==================
-vim.g.vimwiki_list = {
-    {
-        path = '~/.vimwiki',
-        syntax = 'markdown',
-        ext = '.md',
-    }
-}
-
--- Makes vimwiki use markdown links as [text](text.md) instead of [text](text)
-vim.g.vimwiki_markdown_link_ext = 1
-vim.g.taskwiki_markup_syntax = 'markdown'
 
 vim.g.rustfmt_autosave = true   -- Format rust code when the buffer is saved
 
 -- Disable folding in markdown since it is more of a pain than anything
 vim.g.vim_markdown_folding_disabled = 1
 
--- nvim-cmp setup
-local cmp = require'cmp'
-cmp.setup({
-  snippet = {
-    expand = function(args)
-        local luasnip = require("luasnip")
-        if not luasnip then
-            return
-        end
-        luasnip.lsp_expand(args.body)
-    end,
-  },
-  mapping = {
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    -- Add tab support
-    ["<Tab>"] = cmp.mapping(function(fallback)
-      local luasnip = require("luasnip")
-      if not luasnip then
-          return
-      end
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      elseif has_words_before() then
-        cmp.complete()
-      else
-        fallback()
-      end
-    end, { "i", "s" }),
-    ["<S-Tab>"] = cmp.mapping(function(fallback)
-      local luasnip = require("luasnip")
-      if not luasnip then
-          return
-      end
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, { "i", "s" }),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
-    ['<CR>'] = cmp.mapping.confirm({
-      behavior = cmp.ConfirmBehavior.Insert,
-      select = true,
-    })
-  },
 
-  -- Installed sources
-  sources = {
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
-    { name = 'path' },
-    { name = 'buffer' },
+local lspconfig = require('lspconfig')
+
+local opts = {
+    tools = { -- rust-tools options
+        -- Automatically set inlay hints (type hints)
+        autoSetHints = true,
+
+        -- Whether to show hover actions inside the hover window
+        -- This overrides the default hover handler 
+        hover_with_actions = true,
+
+        -- how to execute terminal commands
+        -- options right now: termopen / quickfix
+        executor = require("rust-tools/executors").termopen,
+
+        runnables = {
+            -- whether to use telescope for selection menu or not
+            use_telescope = true
+
+            -- rest of the opts are forwarded to telescope
+        },
+
+        debuggables = {
+            -- whether to use telescope for selection menu or not
+            use_telescope = true
+
+            -- rest of the opts are forwarded to telescope
+        },
+
+        -- These apply to the default RustSetInlayHints command
+        inlay_hints = {
+
+            -- Only show inlay hints for the current line
+            only_current_line = true,
+
+            -- Event which triggers a refersh of the inlay hints.
+            -- You can make this "CursorMoved" or "CursorMoved,CursorMovedI" but
+            -- not that this may cause  higher CPU usage.
+            -- This option is only respected when only_current_line and
+            -- autoSetHints both are true.
+            only_current_line_autocmd = "CursorHold",
+
+            -- wheter to show parameter hints with the inlay hints or not
+            show_parameter_hints = true,
+
+            -- prefix for parameter hints
+            parameter_hints_prefix = "<- ",
+
+            -- prefix for all the other hints (type, chaining)
+            other_hints_prefix = "=> ",
+
+            -- whether to align to the length of the longest line in the file
+            max_len_align = false,
+
+            -- padding from the left if max_len_align is true
+            max_len_align_padding = 1,
+
+            -- whether to align to the extreme right or not
+            right_align = false,
+
+            -- padding from the right if right_align is true
+            right_align_padding = 7,
+
+            -- The color of the hints
+            highlight = "Comment",
+        },
+
+        hover_actions = {
+            -- the border that is used for the hover window
+            -- see vim.api.nvim_open_win()
+            border = {
+                {"╭", "FloatBorder"}, {"─", "FloatBorder"},
+                {"╮", "FloatBorder"}, {"│", "FloatBorder"},
+                {"╯", "FloatBorder"}, {"─", "FloatBorder"},
+                {"╰", "FloatBorder"}, {"│", "FloatBorder"}
+            },
+
+            -- whether the hover action window gets automatically focused
+            auto_focus = false
+        },
+
+        -- settings for showing the crate graph based on graphviz and the dot
+        -- command
+        crate_graph = {
+            -- Backend used for displaying the graph
+            -- see: https://graphviz.org/docs/outputs/
+            -- default: x11
+            backend = "x11",
+            -- where to store the output, nil for no output stored (relative
+            -- path from pwd)
+            -- default: nil
+            output = nil,
+            -- true for all crates.io and external crates, false only the local
+            -- crates
+            -- default: true
+            full = true,
+        }
+    },
+
+    -- all the opts to send to nvim-lspconfig
+    -- these override the defaults set by rust-tools.nvim
+    -- see https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rust_analyzer
+    server = {
+        -- on_attach is a callback called when the language server attachs to the buffer
+        on_attach = on_attach,
+        settings = {
+            -- to enable rust-analyzer settings visit:
+            -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
+            ["rust-analyzer"] = {
+                -- enable clippy on save
+                checkOnSave = {
+                    command = "clippy"
+                },
+            }
+        }
+    },
+
+    -- debugging stuff
+    -- dap = {
+    --     adapter = {
+    --         type = 'executable',
+    --         command = 'lldb-vscode',
+    --         name = "rt_lldb"
+    --     }
+    -- }
+}
+
+require('rust-tools').setup(opts)
+
+-- LSP and auto completion
+-- nvim-cmp supports additional completion capabilities
+
+-- Rust LSP configuration
+local nvim_lsp = require'lspconfig'
+
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+lspconfig.rust_analyzer.setup {
+  on_attach = on_attach,
+  flags = {
+    debounce_text_changes = 150,
   },
+  settings = {
+    ["rust-analyzer"] = {
+      cargo = {
+        allFeatures = true,
+      },
+      completion = {
+          postfix = {
+              enable = false,
+        },
+      },
+    },
+  },
+  capabilities = capabilities,
+}
+
+local servers = { "rust_analyzer" }
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    flags = {
+      debounce_text_changes = 150,
+    }
+  }
+end
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    virtual_text = true,
+    signs = true,
+    update_in_insert = true,
+  }
+)
+
+-- This will let rust-analyzer search the local path structure and use
+-- the Cargo.toml file to find crates that have been listed as dependencies,
+-- i.e. this will allow rust-anaylzer to play nice with crates listed in
+-- Cargo.toml
+nvim_lsp.rust_analyzer.setup({
+    on_attach=on_attach,
+    settings = {
+        ["rust-analyzer"] = {
+            assist = {
+                importGranularity = "module",
+                importPrefix = "by_self",
+            },
+            cargo = {
+                loadOutDirsFromCheck = true
+            },
+            procMacro = {
+                enable = true
+            },
+        }
+    }
+})
+
+-- Automatic, language-dependent indentation, syntax coloring and other
+-- functionality.
+--
+-- Must come *after* the `:packadd!` calls above otherwise the contents of
+-- package "ftdetect" directories won't be evaluated.
+vim.cmd('filetype indent plugin on')
+vim.cmd('syntax on')
+
+require("transparent").setup({
+  enable = false,  -- boolean: enable transparent
+  extra_groups = { -- table/string: additional groups that should be clear
+    -- In particular, when you set it to 'all', that means all avaliable groups
+
+    -- example of akinsho/nvim-bufferline.lua
+    "BufferLineTabClose",
+    "BufferlineBufferSelected",
+    "BufferLineFill",
+    "BufferLineBackground",
+    "BufferLineSeparator",
+    "BufferLineIndicatorSelected",
+  },
+  exclude = {}, -- table: groups you don't want to clear
 })
