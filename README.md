@@ -33,9 +33,7 @@ the [nightfox.nvim](https://github.com/EdenEast/nightfox.nvim) colorscheme.
 The folder structure of the repository is designed to work with `stow` so this
 repository must be checked out to your home directory.
 ```shell
-cd                     # Make sure we are home
-git clone https://github.com/sunshin-es/dotfiles.git
-mv dotfiles .dotfiles  # Give the repository a better name
+git clone https://github.com/sunshin-es/dotfiles.git ~/.dotfiles
 ```
 
 ### Plugin Manager

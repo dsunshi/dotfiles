@@ -23,12 +23,12 @@ require('packer').startup(function(use)
 
     -- Notes
     -- =========================================================================
-    use {
-        'vimwiki/vimwiki',
-        -- vimwiki config: nvim/lua/config/wiki.lua
-        config = function() require("config.wiki") end
-    }
-    use 'tbabej/taskwiki'   -- TaskWarrior integration
+    -- use {
+    --     'vimwiki/vimwiki',
+    --     -- vimwiki config: nvim/lua/config/wiki.lua
+    --     config = function() require("config.wiki") end
+    -- }
+    -- use 'tbabej/taskwiki'   -- TaskWarrior integration
     -- Rust
     -- =========================================================================
     use 'rust-lang/rust.vim'
@@ -132,6 +132,8 @@ require('nightfox').setup({
 })
 
 -- setup must be called before loading
+vim.o.termguicolors = true
+vim.o.background = "dark"
 vim.cmd("colorscheme nightfox")
 require('lualine').setup {
   options = {
