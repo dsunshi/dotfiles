@@ -7,6 +7,10 @@ super + Escape
 super + shift + {q, r}
     bspc {quit, wm -r}
 
+# lockscreen
+super + shift + l
+    xsecurelock
+
 # close the current window
 super + c
     bspc node -c
