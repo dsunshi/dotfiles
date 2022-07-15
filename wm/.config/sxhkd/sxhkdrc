@@ -1,23 +1,31 @@
 
 # make sxhkd reload its configuration files
-alt + Escape
-	pkill -USR1 -x sxhkd
+super + Escape
+    pkill -USR1 -x sxhkd
 
 # quit or restart bspwm
-alt + shift + {q, r}
-	bspc {quit, wm -r}
+super + shift + {q, r}
+    bspc {quit, wm -r}
+
+# close the current window
+super + c
+    bspc node -c
 
 # create a new terminal window
-alt + Return
-	xterm
+super + Return
+    alacritty
+
+# open dmenu
+super + r
+    dmenu_run
 
 # focus in the given direction
-alt + {_, shift + }{h,j,k,l}
-	bspc node -{f, s} {west,south,north,east}
+super + {_, shift + }{h,j,k,l}
+    bspc node -{f, s} {west,south,north,east}
 
 # focus or send to the given desktop
-alt + {_,shift + }{0-9}
-	bspc {desktop -f, node -d} {0-9}
+super + {_,shift + }{0-9}
+    bspc {desktop -f, node -d} {0-9}
 
-alt + ctrl + {n,p,h,j,k,l}
-	bspc desktop -m {next,prev,west,south,north,east} --follow
+super + ctrl + {n,p,h,j,k,l}
+    bspc desktop -m {next,prev,west,south,north,east} --follow

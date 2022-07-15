@@ -3,7 +3,7 @@
 
 # set up both monitors
 # NOTE: this must be done before polybar
-xrandr --output HDMI-1 --primary --mode 1920x1080 --rotate normal --output HDMI-2 --mode 1920x1080 --rotate normal --left-of HDMI-1
+xrandr --output DP-5 --primary --mode 1920x1080 --rotate normal --output DP-6 --mode 1920x1080 --rotate normal --left-of DP-5
 # Per monitor workspaces
 ## Use "bspc query -M to get the ID of the monitor"
 ## The assumption for this machine is that there will always be two monitors connected:
@@ -11,8 +11,8 @@ xrandr --output HDMI-1 --primary --mode 1920x1080 --rotate normal --output HDMI-
 #	bspc monitor $(bspc query -M | sed -n 2p) -d 1 2 3 4
 #	bspc monitor $(bspc query -M | sed -n 1p) -d 5 6 7 8
 #fi
-bspc monitor HDMI-2 -d 1 2 3 4
-bspc monitor HDMI-1 -d 5 6 7 8
+bspc monitor DP-6 -d 1 2 3 4
+bspc monitor DP-5 -d 5 6 7 8
 
 # Polybar(s)
 ## kill any existing instances
@@ -25,8 +25,8 @@ while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 #for m in $(polybar --list-monitors | cut -d":" -f1); do
 #	MONITOR=$m polybar --reload rechts &
 #done
-MONITOR=HDMI-1 polybar --reload rechts &
-MONITOR=HDMI-2 polybar --reload links &
+MONITOR=DP-5 polybar --reload rechts &
+MONITOR=DP-6 polybar --reload links &
 
 xsetroot -cursor_name left_ptr
 sxhkd &
