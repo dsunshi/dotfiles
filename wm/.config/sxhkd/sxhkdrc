@@ -19,9 +19,12 @@ super + c
 super + Return
     alacritty
 
-# open dmenu
+# open rofi
 super + r
-    dmenu_run -l 20
+    rofi -show drun
+
+super + s
+    rofi -show window
 
 # focus in the given direction
 super + {_, shift + }{h,j,k,l}
