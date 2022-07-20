@@ -47,6 +47,8 @@ enable-ipc = true
 
 [bar/rechts]
 inherit = bar/common
+# This will allow full screen application to appear OVER polybar
+wm-restack = bspwm
 
 modules-left = bspwm
 modules-right = filesystem memory cpu eth
