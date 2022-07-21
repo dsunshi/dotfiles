@@ -11,6 +11,10 @@ super + shift + {q,r}
 super + shift + l
     xsecurelock
 
+# power menu
+super + x
+    rofi -show power-menu -modi power-menu:~/.local/scripts/rofi-power-menu
+
 # close the current window
 super + c
     bspc node -c
