@@ -23,6 +23,13 @@ super + Return
 super + v
     qvidcap -d /dev/video0 -b 4 --opengles
 
+# open a scratchpad
+super + p
+    ~/.local/scripts/scratchpad.sh title terminal-scratchpad st -n terminal-scratchpad -g 160x50 -e tmux
+
+# rofi-beats
+super + m
+    ~/.local/scripts/rofi-beats-linux
 # open rofi
 super + r
     rofi -show drun
