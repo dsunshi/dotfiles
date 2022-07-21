@@ -19,6 +19,10 @@ super + c
 super + Return
     alacritty
 
+# open video capture
+super + v
+    qvidcap -d /dev/video0 -b 4 --opengles
+
 # open rofi
 super + r
     rofi -show drun
@@ -26,13 +30,16 @@ super + r
 super + s
     rofi -show window
 
+super + f
+    bspc node -t ~fullscreen
+
 # focus in the given direction
 super + {_, shift + }{h,j,k,l}
     bspc node -{f, s} {west,south,north,east}
 
 # focus or send to the given desktop
-super + {_,shift + }{0-9}
-    bspc {desktop -f, node -d} {0-9}
+super + shift + {0-9}
+    bspc node -d ^{0-9} --follow
 
 super + ctrl + {n,p,h,j,k,l}
     bspc desktop -m {next,prev,west,south,north,east} --follow
