@@ -25,11 +25,14 @@ super + Return
 
 # open video capture
 super + v
-    qvidcap -d /dev/video0 -b 4 --opengles
+    qvidcap -d /dev/video1 -b 4 --opengles
 
 # open a scratchpad
 super + p
     ~/.local/scripts/scratchpad.sh title terminal-scratchpad st -n terminal-scratchpad -g 160x50 -e tmux
+
+super + b
+    ~/.local/scripts/scratchpad.sh title barrier-scratchpad barrier -n barrier-scratchpad
 
 # rofi-beats
 super + m
@@ -43,6 +46,15 @@ super + s
 
 super + f
     bspc node -t ~fullscreen
+
+# resize
+# expand a window by moving one of its side outward
+super + alt + {h,j,k,l}
+    bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+super + alt + ctrl + {h,j,k,l}
+    bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
 # focus in the given direction
 super + {_, shift + }{h,j,k,l}
