@@ -18,6 +18,12 @@ bspc config automatic_scheme      spiral
 # set up both monitors
 # NOTE: this must be done before polybar
 xrandr --output DP-5 --primary --mode 1920x1080 --rotate normal --output DP-6 --mode 1920x1080 --rotate normal --left-of DP-5
+
+# Backgrounds
+feh --bg-fill ~/.wallpapers/wallhaven-kwx37q_1920x1080.png --bg-fill ~/.wallpapers/wallhaven-96mwxx_1920x1080.png
+
+# compositor
+picom &
 # Per monitor workspaces
 ## Use "bspc query -M to get the ID of the monitor"
 ## The assumption for this machine is that there will always be two monitors connected:
@@ -25,8 +31,10 @@ xrandr --output DP-5 --primary --mode 1920x1080 --rotate normal --output DP-6 --
 #	bspc monitor $(bspc query -M | sed -n 2p) -d 1 2 3 4
 #	bspc monitor $(bspc query -M | sed -n 1p) -d 5 6 7 8
 #fi
-bspc monitor DP-6 -d email web dev notes games
-bspc monitor DP-5 -d tools canvas work
+# bspc monitor DP-6 -d email web dev notes games
+# bspc monitor DP-5 -d tools canvas work
+bspc monitor DP-6 -d 1 2 3 4 5
+bspc monitor DP-5 -d 6 7 8
 
 # Polybar(s)
 ## kill any existing instances
@@ -44,8 +52,4 @@ MONITOR=DP-6 polybar --reload links &
 
 xsetroot -cursor_name left_ptr
 sxhkd &
-
-
-
-
 

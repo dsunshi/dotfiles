@@ -7,7 +7,7 @@ window:
   class:
     instance: Alacritty
     general: Alacritty
-  opacity: 0.90
+  opacity: 0.80
 font:
   normal:
     family: JetBrainsMono Nerd Font
