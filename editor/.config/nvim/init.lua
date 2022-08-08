@@ -151,7 +151,7 @@ vim.cmd('filetype indent plugin on')
 vim.cmd('syntax on')
 
 require("transparent").setup({
-  enable = false,  -- boolean: enable transparent
+  enable = true,  -- boolean: enable transparent
   extra_groups = { -- table/string: additional groups that should be clear
     -- In particular, when you set it to 'all', that means all avaliable groups
 
