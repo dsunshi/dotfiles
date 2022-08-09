@@ -25,7 +25,7 @@ super + Return
 
 # open video capture
 super + v
-    qvidcap -d /dev/video1 -b 4 --opengles
+    qvidcap -d /dev/video0 -b 4 --opengles
 
 # open a scratchpad
 super + p
@@ -59,6 +59,10 @@ super + alt + ctrl + {h,j,k,l}
 # focus in the given direction
 super + {_, shift + }{h,j,k,l}
     bspc node -{f, s} {west,south,north,east}
+
+# go to desktop
+super + {0-9}
+    bspc desktop -f {0-9}
 
 # focus or send to the given desktop
 super + shift + {0-9}
