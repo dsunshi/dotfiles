@@ -49,3 +49,4 @@ export PATH="$HOME/.local/share/gem/ruby/3.0.0/bin:$HOME/.cargo/bin:$PATH"
 # starship.rs
 starship init fish | source
 
+fish_add_path ~/.emacs.d/bin
