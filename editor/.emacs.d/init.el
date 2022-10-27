@@ -6,6 +6,9 @@
 ;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
 
+;; Enable stack trace on errors
+(setq debug-on-error t)
+
 ;; Package manager
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
@@ -21,7 +24,7 @@
  '(custom-safe-themes
    '("2dc03dfb67fbcb7d9c487522c29b7582da20766c9998aaad5e5b63b5c27eec3f" default))
  '(package-selected-packages
-   '(yasnippet-snippets yasnippet auto-complete undo-tree ace-window org-bullets which-key zenburn-theme use-package evil)))
+   '(company lsp-ui lsp-mode rustic yasnippet-snippets yasnippet auto-complete undo-tree ace-window org-bullets which-key zenburn-theme use-package evil)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

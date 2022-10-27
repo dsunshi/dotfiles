@@ -26,8 +26,9 @@
     Install Evil and disable "C-i" to jump forward to restore TAB functionality in Org mode. undo-tree is also used to give Evil mode Vim style undo.
     #+BEGIN_SRC emacs-lisp
     (use-package evil
+        :ensure t
         :init (setq evil-want-C-i-jump nil)
-        :config (evil-mode))
+        :config (evil-mode 1))
 
     (use-package undo-tree
         :ensure t
@@ -59,6 +60,10 @@
 ** higlight the current line
     #+BEGIN_SRC emacs-lisp
     (global-hl-line-mode 1)
+    #+END_SRC
+** Default size
+    #+BEGIN_SRC emacs-lisp
+    (set-frame-font "JetBrainsMono Nerd Font 16" nil t)
     #+END_SRC
 ** Themes
 *** zenburn
