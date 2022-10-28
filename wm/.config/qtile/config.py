@@ -182,7 +182,7 @@ if get_num_monitors() > 1:
                         widget.GroupBox(),
                         widget.Prompt(),
                         widget.WindowName(),
-                        widget.TextBox("DP1", foreground="#d75f5f"),
+                        widget.TextBox("DP2", foreground="#d75f5f"),
                         # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
                         # widget.StatusNotifier(),
                         widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
@@ -199,7 +199,7 @@ if get_num_monitors() > 1:
                         widget.GroupBox(),
                         widget.Prompt(),
                         widget.WindowName(),
-                        widget.TextBox("DP2", foreground="#d75f5f"),
+                        widget.TextBox("DP1", foreground="#d75f5f"),
                         widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
                     ],
                     28,
