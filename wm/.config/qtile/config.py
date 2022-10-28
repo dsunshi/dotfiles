@@ -3,12 +3,42 @@ from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
+# this is needed for detecting multiple displys
+# this import requires python-xlib to be installed
+from Xlib import display as xdisplay
 
 mod = "mod4"
 terminal = guess_terminal()
 
 # Preferred editor
 editor = "emacs"
+
+# Reload the config when the number of monitors has changed
+# @hook.subscribe.screen_change
+# def restart_on_randr(_):
+#     qtile.cmd_reload_config()
+
+def get_num_monitors():
+    num_monitors = 0
+    try:
+        display = xdisplay.Display()
+        screen = display.screen()
+        resources = screen.root.xrandr_get_screen_resources()
+
+        for output in resources.outputs:
+            monitor = display.xrandr_get_output_info(output, resources.config_timestamp)
+            preferred = False
+            if hasattr(monitor, "preferred"):
+                preferred = monitor.preferred
+            elif hasattr(monitor, "num_preferred"):
+                preferred = monitor.num_preferred
+            if preferred:
+                num_monitors += 1
+    except Exception as e:
+        # always setup at least one monitor
+        return 1
+    else:
+        return num_monitors
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -128,61 +158,7 @@ screens = [
                 ),
                 # widget.TextBox("sunshine config", name="default"),
                 widget.Battery(font="Font Awesome 6 Free", discharge_char=""),
-                widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
-                # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
-                # widget.StatusNotifier(),
-                widget.Systray(),
-                widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
-                widget.QuickExit(),
-            ],
-            28,
-            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
-        ),
-    ),
-    Screen(
-        top=bar.Bar(
-            [
-                widget.CurrentLayout(),
-                widget.GroupBox(),
-                widget.Prompt(),
-                widget.WindowName(),
-                widget.Chord(
-                    chords_colors={
-                        "launch": ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
-                # widget.TextBox("sunshine config", name="default"),
-                widget.Battery(font="Font Awesome 6 Free", discharge_char=""),
-                widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
-                # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
-                # widget.StatusNotifier(),
-                widget.Systray(),
-                widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
-                widget.QuickExit(),
-            ],
-            28,
-            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
-        ),
-    ),
-    Screen(
-        top=bar.Bar(
-            [
-                widget.CurrentLayout(),
-                widget.GroupBox(),
-                widget.Prompt(),
-                widget.WindowName(),
-                widget.Chord(
-                    chords_colors={
-                        "launch": ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
-                # widget.TextBox("sunshine config", name="default"),
-                widget.Battery(font="Font Awesome 6 Free", discharge_char=""),
-                widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
+                widget.TextBox("DP0", foreground="#d75f5f"),
                 # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
                 # widget.StatusNotifier(),
                 widget.Systray(),
@@ -195,6 +171,44 @@ screens = [
         ),
     ),
 ]
+
+if get_num_monitors() > 1:
+    screens.extend(
+        [
+            Screen(
+                top=bar.Bar(
+                    [
+                        widget.CurrentLayout(),
+                        widget.GroupBox(),
+                        widget.Prompt(),
+                        widget.WindowName(),
+                        widget.TextBox("DP1", foreground="#d75f5f"),
+                        # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
+                        # widget.StatusNotifier(),
+                        widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
+                    ],
+                    28,
+                    # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
+                    # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
+                ),
+            ),
+            Screen(
+                top=bar.Bar(
+                    [
+                        widget.CurrentLayout(),
+                        widget.GroupBox(),
+                        widget.Prompt(),
+                        widget.WindowName(),
+                        widget.TextBox("DP2", foreground="#d75f5f"),
+                        widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
+                    ],
+                    28,
+                    # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
+                    # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
+                ),
+            ),
+        ]
+    )
 
 # Drag floating layouts.
 mouse = [
@@ -240,3 +254,5 @@ wl_input_rules = None
 # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
 # java that happens to be on java's whitelist.
 wmname = "LG3D"
+
+
