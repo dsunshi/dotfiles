@@ -77,7 +77,12 @@
       (use-package zenburn-theme
 	:ensure t)
 
-      (load-theme 'zenburn t)
+      (use-package autothemer
+	:ensure t)
+
+      (load-theme 'catppuccin-macchiato t)
+
+      ;; (load-theme 'zenburn t)
     #+END_SRC
 * Org-Mode
 ** org-bullets
