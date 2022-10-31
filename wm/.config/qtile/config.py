@@ -82,6 +82,7 @@ keys = [
 
     ###
     Key([mod], "e", lazy.spawn(editor), desc="Launch favorite editor"),
+    Key([mod], "period", lazy.next_screen(), desc="Change focus to next window (monitor)"),
 ]
 
 groups = [Group(i) for i in "123456789"]
@@ -112,7 +113,7 @@ for i in groups:
 
 
 layout_theme = {
-    "border_width": 2,
+    "border_width": 3,
     "margin": 8,
     "border_focus": "#cba6f7",
     "border_normal": "#585b70"
@@ -144,6 +145,8 @@ extension_defaults = widget_defaults.copy()
 
 screens = [
     Screen(
+        wallpaper='~/wallpapers/House_by_the_river_horz.jpg',
+        wallpaper_mode='stretch',
         top=bar.Bar(
             [
                 widget.CurrentLayout(),
@@ -176,6 +179,8 @@ if get_num_monitors() > 1:
     screens.extend(
         [
             Screen(
+                wallpaper='~/wallpapers/Purple_Rain_vert.jpg',
+                wallpaper_mode='stretch',
                 top=bar.Bar(
                     [
                         widget.CurrentLayout(),
@@ -193,6 +198,8 @@ if get_num_monitors() > 1:
                 ),
             ),
             Screen(
+                wallpaper='~/wallpapers/Purple_Cyberpunk_horz.jpg',
+                wallpaper_mode='stretch',
                 top=bar.Bar(
                     [
                         widget.CurrentLayout(),
