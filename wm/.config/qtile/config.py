@@ -76,9 +76,9 @@ keys = [
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod, "shift"], "r", lazy.reload_config(), desc="Reload the config"),
+    Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+    Key([mod], "f", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 
     ###
     Key([mod], "e", lazy.spawn(editor), desc="Launch favorite editor"),
@@ -86,15 +86,14 @@ keys = [
 ]
 
 groups = [
-    Group("1", label="www", matches=[Match(wm_class=["Firefox"])]),
-    Group("2", label="dev"),
-    Group("3", label="sys"),
-    Group("4", label="mon"),
-    Group("5", label="doc"),
-    Group("6", label="zbl"),
-    Group("7", label="vbb"),
-    Group("8", label="vbc"),
-    Group("9", label="vbd"),
+    Group("1", label="1:www", matches=[Match(wm_class=["firefox"])]),
+    Group("2", label="2:dev"),
+    Group("3", label="3:sys"),
+    Group("4", label="4:mon"),
+    Group("5", label="5:zbl"),
+    Group("6", label="6:doc"),
+    Group("7", label="7:dwn"),
+    Group("8", label="8:otr"),
 ]
 
 for i in groups:
@@ -161,7 +160,7 @@ screens = [
         top=bar.Bar(
             [
                 widget.CurrentLayout(),
-                widget.GroupBox(),
+                widget.GroupBox(highlight_method="line", disable_drag=True),
                 widget.Prompt(),
                 widget.WindowName(),
                 widget.Chord(
@@ -197,7 +196,7 @@ if get_num_monitors() > 1:
                 top=bar.Bar(
                     [
                         widget.CurrentLayout(),
-                        widget.GroupBox(),
+                        widget.GroupBox(highlight_method="line", disable_drag=True),
                         widget.Prompt(),
                         widget.WindowName(),
                         widget.TextBox("DP2", foreground="#d75f5f"),
@@ -217,7 +216,7 @@ if get_num_monitors() > 1:
                     [
                         #widget.TaskList(),
                         widget.CurrentLayout(),
-                        widget.GroupBox(),
+                        widget.GroupBox(highlight_method="line", disable_drag=True),
                         widget.Prompt(),
                         widget.WindowName(),
                         widget.TextBox("DP1", foreground="#d75f5f"),
