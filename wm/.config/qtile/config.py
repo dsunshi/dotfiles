@@ -76,7 +76,7 @@ keys = [
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
+    Key([mod, "shift"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 
@@ -85,7 +85,17 @@ keys = [
     Key([mod], "period", lazy.next_screen(), desc="Change focus to next window (monitor)"),
 ]
 
-groups = [Group(i) for i in "123456789"]
+groups = [
+    Group("1", label="www", matches=[Match(wm_class=["Firefox"])]),
+    Group("2", label="dev"),
+    Group("3", label="sys"),
+    Group("4", label="mon"),
+    Group("5", label="doc"),
+    Group("6", label="zbl"),
+    Group("7", label="vbb"),
+    Group("8", label="vbc"),
+    Group("9", label="vbd"),
+]
 
 for i in groups:
     keys.extend(
@@ -116,7 +126,8 @@ layout_theme = {
     "border_width": 3,
     "margin": 8,
     "border_focus": "#cba6f7",
-    "border_normal": "#585b70"
+    "border_normal": "#585b70",
+    "border_on_single": True     # Even if there is only one window we still want the border color
 }
 
 
@@ -127,12 +138,12 @@ layouts = [
     # layout.Stack(num_stacks=2),
     # layout.Bsp(),
     # layout.Matrix(),
-    # layout.MonadTall(),
+    # layout.MonadTall(**layout_theme),
     # layout.MonadWide(),
     # layout.RatioTile(),
     # layout.Tile(),
     # layout.TreeTab(),
-    # layout.VerticalTile(),
+    layout.VerticalTile(**layout_theme),
     # layout.Zoomy(),
 ]
 
@@ -145,7 +156,7 @@ extension_defaults = widget_defaults.copy()
 
 screens = [
     Screen(
-        wallpaper='~/wallpapers/House_by_the_river_horz.jpg',
+        wallpaper='~/wallpapers/Japanese_style_wallpaper_horz.jpg',
         wallpaper_mode='stretch',
         top=bar.Bar(
             [
@@ -165,6 +176,8 @@ screens = [
                 # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
                 # widget.StatusNotifier(),
                 widget.Systray(),
+                widget.NvidiaSensors(),
+                widget.PulseVolume(),
                 widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
                 widget.QuickExit(),
             ],
@@ -202,6 +215,7 @@ if get_num_monitors() > 1:
                 wallpaper_mode='stretch',
                 top=bar.Bar(
                     [
+                        #widget.TaskList(),
                         widget.CurrentLayout(),
                         widget.GroupBox(),
                         widget.Prompt(),
@@ -210,8 +224,8 @@ if get_num_monitors() > 1:
                         widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
                     ],
                     28,
-                    # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-                    # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
+                    #border_width=[2, 2, 2, 2],  # Draw top and bottom borders
+                    #border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
                 ),
             ),
         ]
