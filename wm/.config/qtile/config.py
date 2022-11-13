@@ -7,12 +7,27 @@ from libqtile.utils import guess_terminal
 # this import requires python-xlib to be installed
 from Xlib import display as xdisplay
 
+import os
+
 mod = "mod4"
 terminal = guess_terminal()
 
 # Preferred editor
 editor = "emacs"
 
+### Palette
+class Colors:
+    DARKEST: str  = "#000000"
+    BG: str       = "#F2F4F8"
+    TXT: str      = "#4C566A"
+    INACTIVE: str = "#ECEFF4"
+    ACTIVE: str   = "#FFFFFF"
+    FOCUS: str    = "#BF616A"
+    UNFOCUS: str  = "#88C0D0"
+    OPACITY: float = 0.5
+
+
+colors = Colors()
 # Reload the config when the number of monitors has changed
 # @hook.subscribe.screen_change
 # def restart_on_randr(_):
@@ -85,15 +100,15 @@ keys = [
     Key([mod], "period", lazy.next_screen(), desc="Change focus to next window (monitor)"),
 ]
 
+# A Unicode Character “ ” (U+2009) Thin Space is used in the label name to
+# help align everything nicely
 groups = [
-    Group("1", label="1:www", matches=[Match(wm_class=["firefox"])]),
-    Group("2", label="2:dev"),
-    Group("3", label="3:sys"),
-    Group("4", label="4:mon"),
-    Group("5", label="5:zbl"),
-    Group("6", label="6:doc"),
-    Group("7", label="7:dwn"),
-    Group("8", label="8:otr"),
+    Group("1", label="  ", matches=[Match(wm_class=["firefox"])]),
+    Group("2", label="  "),
+    Group("3", label="  "),
+    Group("4", label="  "),
+    Group("5", label="  "),
+    Group("6", label="  "),
 ]
 
 for i in groups:
@@ -123,7 +138,7 @@ for i in groups:
 
 layout_theme = {
     "border_width": 3,
-    "margin": 8,
+    "margin": 10,
     "border_focus": "#cba6f7",
     "border_normal": "#585b70",
     "border_on_single": True     # Even if there is only one window we still want the border color
@@ -147,22 +162,69 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font="JetBrainsMono Nerd Font",
-    fontsize=16,
-    padding=3,
+    font="Roboto-Thin",
+    fontsize=12,
+    padding=7,
 )
+
+back_light = widget.Backlight(
+    backlight_name=os.listdir('/sys/class/backlight')[0],
+    step=1,
+    update_interval=None,
+    format="",
+    change_command=None,
+#    foreground=colours[3],
+)
+
+
 extension_defaults = widget_defaults.copy()
+
+
+#### Functions to standardize the look and feel across all of the bars
+
+## Widget Settings
+
+# Widget to show the current group layout
+def wdgt_layout():
+    """
+    Current Layout via icons located in ~/.icons/
+    """
+    return widget.CurrentLayoutIcon(scale=0.8)
+
+# Widget to display the groups in the bar
+def wdgt_groups():
+    """
+    The actual the groups
+    """
+    return widget.GroupBox(
+            highlight_method="line",
+            disable_drag=True,
+            font="Font Awesome 6",
+            rounded=True,
+            active=colors.DARKEST,
+            inactive=colors.TXT,
+            foreground=colors.TXT,
+            background=colors.BG,
+            highlight_color=[colors.ACTIVE,colors.INACTIVE],
+            this_current_screen_border=colors.FOCUS,
+            this_screen_border=colors.UNFOCUS,
+            )
+
+## Bar Settings
+def bar_margin():
+    return [10, 10, 0, 10]
+
 
 screens = [
     Screen(
-        wallpaper='~/wallpapers/Japanese_style_wallpaper_horz.jpg',
+        wallpaper='~/wallpapers/edp.png',
         wallpaper_mode='stretch',
         top=bar.Bar(
             [
-                widget.CurrentLayout(),
-                widget.GroupBox(highlight_method="line", disable_drag=True),
+                wdgt_layout(),
+                wdgt_groups(),
                 widget.Prompt(),
-                widget.WindowName(),
+                #widget.WindowName(),
                 widget.Chord(
                     chords_colors={
                         "launch": ("#ff0000", "#ffffff"),
@@ -174,13 +236,18 @@ screens = [
                 widget.TextBox("DP0", foreground="#d75f5f"),
                 # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
                 # widget.StatusNotifier(),
+                back_light,
                 widget.Systray(),
                 widget.NvidiaSensors(),
                 widget.PulseVolume(),
                 widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
                 widget.QuickExit(),
             ],
-            28,
+            20,
+            margin=bar_margin(),
+            background=colors.BG,
+            opacity=colors.OPACITY,
+            # opacity=colors.OPACITY,
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
@@ -191,12 +258,12 @@ if get_num_monitors() > 1:
     screens.extend(
         [
             Screen(
-                wallpaper='~/wallpapers/Purple_Rain_vert.jpg',
+                wallpaper='~/wallpapers/dp112.png',
                 wallpaper_mode='stretch',
                 top=bar.Bar(
                     [
-                        widget.CurrentLayout(),
-                        widget.GroupBox(highlight_method="line", disable_drag=True),
+                        wdgt_layout(),
+                        wdgt_groups(),
                         widget.Prompt(),
                         widget.WindowName(),
                         widget.TextBox("DP2", foreground="#d75f5f"),
@@ -204,25 +271,33 @@ if get_num_monitors() > 1:
                         # widget.StatusNotifier(),
                         widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
                     ],
-                    28,
+                    20,
+                    margin=bar_margin(),
+                    background=colors.BG,
+                    opacity=colors.OPACITY,
+                    # opacity=colors.OPACITY,
                     # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
                     # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
                 ),
             ),
             Screen(
-                wallpaper='~/wallpapers/Purple_Cyberpunk_horz.jpg',
+                wallpaper='~/wallpapers/dp113.png',
                 wallpaper_mode='stretch',
                 top=bar.Bar(
                     [
                         #widget.TaskList(),
-                        widget.CurrentLayout(),
-                        widget.GroupBox(highlight_method="line", disable_drag=True),
+                        wdgt_layout(),
+                        wdgt_groups(),
                         widget.Prompt(),
                         widget.WindowName(),
                         widget.TextBox("DP1", foreground="#d75f5f"),
                         widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
                     ],
-                    28,
+                    20,
+                    margin=bar_margin(),
+                    background=colors.BG,
+                    opacity=colors.OPACITY,
+                    # opacity=colors.OPACITY,
                     #border_width=[2, 2, 2, 2],  # Draw top and bottom borders
                     #border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
                 ),
@@ -274,5 +349,3 @@ wl_input_rules = None
 # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
 # java that happens to be on java's whitelist.
 wmname = "LG3D"
-
-
