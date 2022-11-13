@@ -138,9 +138,9 @@ for i in groups:
 
 layout_theme = {
     "border_width": 3,
-    "margin": 10,
-    "border_focus": "#cba6f7",
-    "border_normal": "#585b70",
+    "margin": 15,
+    "border_focus": colors.FOCUS,
+    "border_normal": colors.INACTIVE,
     "border_on_single": True     # Even if there is only one window we still want the border color
 }
 
@@ -210,6 +210,39 @@ def wdgt_groups():
             this_screen_border=colors.UNFOCUS,
             )
 
+# Battery widget
+def wdgt_battery(item):
+    if item == 0:
+        return widget.TextBox(
+            text='',
+            # size=20,
+            font="Font Awesome 6",
+            # font='JetBrains Mono Bold',
+            foreground=colors.TXT,
+            background=colors.BG,
+        )
+    elif item == 1:
+        return widget.Battery(
+            format='{percent:2.0%}',
+            battery="BAT0",
+            font="Font Awesome 6",
+            charge_char="",
+            fontsize=12,
+            padding=10,
+            foreground=colors.TXT,
+            low_foreground=colors.FOCUS,
+            background=colors.BG,
+        )
+
+# Clock widget
+def wdgt_clock():
+    return widget.Clock(
+        format=" %B %d, %Y %H:%M",
+        font="JetBrains Mono Nerd Font",
+        foreground=colors.TXT,
+        background=colors.BG,
+    )
+
 ## Bar Settings
 def bar_margin():
     return [10, 10, 0, 10]
@@ -223,6 +256,8 @@ screens = [
             [
                 wdgt_layout(),
                 wdgt_groups(),
+                # Debug monitor name
+                widget.TextBox("DP0", foreground=colors.FOCUS),
                 widget.Prompt(),
                 #widget.WindowName(),
                 widget.Chord(
@@ -233,14 +268,15 @@ screens = [
                 ),
                 # widget.TextBox("sunshine config", name="default"),
                 widget.Battery(font="Font Awesome 6 Free", discharge_char=""),
-                widget.TextBox("DP0", foreground="#d75f5f"),
                 # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
                 # widget.StatusNotifier(),
                 back_light,
                 widget.Systray(),
                 widget.NvidiaSensors(),
                 widget.PulseVolume(),
-                widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
+                wdgt_battery(0),
+                wdgt_battery(1),
+                wdgt_clock(),
                 widget.QuickExit(),
             ],
             20,
@@ -264,12 +300,12 @@ if get_num_monitors() > 1:
                     [
                         wdgt_layout(),
                         wdgt_groups(),
+                        # Debug monitor name
+                        widget.TextBox("DP2", foreground=colors.FOCUS),
                         widget.Prompt(),
                         widget.WindowName(),
-                        widget.TextBox("DP2", foreground="#d75f5f"),
                         # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
                         # widget.StatusNotifier(),
-                        widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
                     ],
                     20,
                     margin=bar_margin(),
@@ -288,10 +324,32 @@ if get_num_monitors() > 1:
                         #widget.TaskList(),
                         wdgt_layout(),
                         wdgt_groups(),
+                        # Debug monitor name
+                        widget.TextBox("DP1", foreground=colors.FOCUS),
                         widget.Prompt(),
                         widget.WindowName(),
-                        widget.TextBox("DP1", foreground="#d75f5f"),
-                        widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
+                        widget.TextBox("", foreground=colors.TXT),
+                        widget.PulseVolume(
+                            background=colors.BG,
+                            foreground=colors.TXT,
+                        ),
+                        widget.TextBox(" ",
+                        font="Font Awesome 6 Free",
+                            foreground=colors.UNFOCUS,
+                        ),
+                        widget.Image(
+                            filename="~/.icons/nvida.png"
+                        ),
+                        widget.NvidiaSensors(
+                            foreground=colors.TXT,
+                            background=colors.BG,
+                            foreground_alert=colors.FOCUS,
+                        ),
+                        widget.TextBox("",
+                        font="Font Awesome 6 Free",
+                            foreground=colors.UNFOCUS,
+                        ),
+                        wdgt_clock(),
                     ],
                     20,
                     margin=bar_margin(),
